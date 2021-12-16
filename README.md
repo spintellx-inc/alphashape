@@ -31,6 +31,22 @@ Creating alpha shapes around sets of points usually requires a visually interact
 * Free software: MIT license
 * Documentation: https://alphashape.readthedocs.io.
 
+## Setup
+
+```
+conda deactivate
+export CONDA_ENV=alphashape
+conda info --envs
+
+#For more details
+#conda info --envs conda info -e
+conda env remove -n $CONDA_ENV
+
+conda env create -f environment.yml
+conda activate $CONDA_ENV
+pip install -r requirements_dev.txt
+```
+
 ## Features
 
 ### Import Dependencies

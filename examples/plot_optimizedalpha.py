@@ -10,8 +10,16 @@ import matplotlib.pyplot as plt
 from descartes import PolygonPatch
 
 # Define input points
-points = [(0., 0.), (0., 1.), (1., 1.), (1., 0.),
-          (0.5, 0.25), (0.5, 0.75), (0.25, 0.5), (0.75, 0.5)]
+points = [
+    (0.0, 0.0),
+    (0.0, 1.0),
+    (1.0, 1.0),
+    (1.0, 0.0),
+    (0.5, 0.25),
+    (0.5, 0.75),
+    (0.25, 0.5),
+    (0.75, 0.5),
+]
 
 # Determine the optimized alpha parameter
 alpha = alphashape.optimizealpha(points)
@@ -26,6 +34,6 @@ fig, ax = plt.subplots()
 ax.scatter(*zip(*points))
 
 # Plot alpha shape
-ax.add_patch(PolygonPatch(alpha_shape, alpha=.2))
+ax.add_patch(PolygonPatch(alpha_shape, alpha=0.2))
 
 plt.show()

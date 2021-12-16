@@ -21,12 +21,15 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath(".."))
 from alphashape import __version__
 
 # https://github.com/sphinx-doc/sphinx/issues/8395
 import m2r2
+
 current_m2r2_setup = m2r2.setup
+
+
 def patched_m2r2_setup(app):
     try:
         return current_m2r2_setup(app)
@@ -34,8 +37,12 @@ def patched_m2r2_setup(app):
         app.add_source_suffix(".md", "markdown")
         app.add_source_parser(m2r2.M2RParser)
     return dict(
-        version=m2r2.__version__, parallel_read_safe=True, parallel_write_safe=True,
+        version=m2r2.__version__,
+        parallel_read_safe=True,
+        parallel_write_safe=True,
     )
+
+
 m2r2.setup = patched_m2r2_setup
 
 # -- General configuration ---------------------------------------------
@@ -47,31 +54,32 @@ m2r2.setup = patched_m2r2_setup
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    'm2r2',
-    'sphinx.ext.autodoc',
-    'sphinx_issues',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.viewcode',
-    'sphinx_gallery.gen_gallery',
-    'sphinx.ext.imgconverter']
+    "m2r2",
+    "sphinx.ext.autodoc",
+    "sphinx_issues",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "sphinx_gallery.gen_gallery",
+    "sphinx.ext.imgconverter",
+]
 
 # Github repository
-issues_github_path = 'bellockk/alphashape'
+issues_github_path = "bellockk/alphashape"
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # General information about the project.
-project = u'Alpha Shape Toolbox'
+project = u"Alpha Shape Toolbox"
 copyright = u"2019, Kenneth E. Bellock"
 author = u"Kenneth E. Bellock"
 
@@ -94,10 +102,10 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
@@ -108,7 +116,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = "alabaster"
 
 # Theme options are theme-specific and customize the look and feel of a
 # theme further.  For a list of options available for each theme, see the
@@ -126,7 +134,7 @@ html_static_path = []
 # -- Options for HTMLHelp output ---------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'alphashapedoc'
+htmlhelp_basename = "alphashapedoc"
 
 
 # -- Options for LaTeX output ------------------------------------------
@@ -135,15 +143,12 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -153,9 +158,13 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass
 # [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'alphashape.tex',
-     u'Alpha Shape Toolbox Documentation',
-     u'Kenneth E. Bellock', 'manual'),
+    (
+        master_doc,
+        "alphashape.tex",
+        u"Alpha Shape Toolbox Documentation",
+        u"Kenneth E. Bellock",
+        "manual",
+    ),
 ]
 
 
@@ -164,9 +173,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'alphashape',
-     u'Alpha Shape Toolbox Documentation',
-     [author], 1)
+    (master_doc, "alphashape", u"Alpha Shape Toolbox Documentation", [author], 1)
 ]
 
 
@@ -176,21 +183,25 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'alphashape',
-     u'Alpha Shape Toolbox Documentation',
-     author,
-     'alphashape',
-     'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        "alphashape",
+        u"Alpha Shape Toolbox Documentation",
+        author,
+        "alphashape",
+        "One line description of project.",
+        "Miscellaneous",
+    ),
 ]
 
 # -- Options for Mocking -----------------------------------------------
-autodoc_mock_imports = ['shapely', 'scipy', 'numpy']
+autodoc_mock_imports = ["shapely", "scipy", "numpy"]
 
 # -- Options for Gallery -----------------------------------------------
 sphinx_gallery_conf = {
-    'line_numbers': True,
-    'examples_dirs': '../examples',
-    'backreferences_dir': 'gen_modules/backreferences',
-    'doc_module': ('alphashape'),
-    'gallery_dirs': 'auto_examples'}
+    "line_numbers": True,
+    "examples_dirs": "../examples",
+    "backreferences_dir": "gen_modules/backreferences",
+    "doc_module": ("alphashape"),
+    "gallery_dirs": "auto_examples",
+}

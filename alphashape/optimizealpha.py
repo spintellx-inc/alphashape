@@ -1,4 +1,4 @@
-__all__ = ['optimizealpha']
+__all__ = ["optimizealpha"]
 import sys
 import logging
 import shapely
@@ -7,13 +7,18 @@ import trimesh
 from typing import Union, Tuple, List
 import rtree  # Needed by trimesh
 import numpy as np
+
 try:
     import geopandas
+
     USE_GP = True
 except ImportError:
     USE_GP = False
 
+from numba import jit
 
+
+@jit(nopython=False)
 def _testalpha(points: Union[List[Tuple[float]], np.ndarray], alpha: float):
     """
     Evaluates an alpha parameter.
@@ -41,14 +46,20 @@ def _testalpha(points: Union[List[Tuple[float]], np.ndarray], alpha: float):
         return all([polygon.intersects(point) for point in points])
     elif isinstance(polygon, trimesh.base.Trimesh):
         return len(polygon.faces) > 0 and all(
-            trimesh.proximity.signed_distance(polygon, list(points)) >= 0)
+            trimesh.proximity.signed_distance(polygon, list(points)) >= 0
+        )
     else:
         return False
 
 
-def optimizealpha(points: Union[List[Tuple[float]], np.ndarray],
-                  max_iterations: int = 10000, lower: float = 0.,
-                  upper: float = sys.float_info.max, silent: bool = False):
+@jit(nopython=False)
+def optimizealpha(
+    points: Union[List[Tuple[float]], np.ndarray],
+    max_iterations: int = 10000,
+    lower: float = 0.0,
+    upper: float = sys.float_info.max,
+    silent: bool = False,
+):
     """
     Solve for the alpha parameter.
 
@@ -75,26 +86,28 @@ def optimizealpha(points: Union[List[Tuple[float]], np.ndarray],
     """
     # Convert to a shapely multipoint object if not one already
     if USE_GP and isinstance(points, geopandas.GeoDataFrame):
-        points = points['geometry']
+        points = points["geometry"]
 
     # Set the bounds
     assert lower >= 0, "The lower bounds must be at least 0"
     # Ensure the upper limit bounds the solution
     assert upper <= sys.float_info.max, (
-        f'The upper bounds must be less than or equal to {sys.float_info.max} '
-        'on your system')
+        f"The upper bounds must be less than or equal to {sys.float_info.max} "
+        "on your system"
+    )
 
     if _testalpha(points, upper):
         if not silent:
-            logging.error('the max float value does not bound the alpha '
-                          'parameter solution')
-        return 0.
+            logging.error(
+                "the max float value does not bound the alpha " "parameter solution"
+            )
+        return 0.0
 
     # Begin the bisection loop
     counter = 0
     while (upper - lower) > np.finfo(float).eps * 2:
         # Bisect the current bounds
-        test_alpha = (upper + lower) * .5
+        test_alpha = (upper + lower) * 0.5
 
         # Update the bounds to include the solution space
         if _testalpha(points, test_alpha):
@@ -106,8 +119,10 @@ def optimizealpha(points: Union[List[Tuple[float]], np.ndarray],
         counter += 1
         if counter > max_iterations:
             if not silent:
-                logging.warning('maximum allowed iterations reached while '
-                                'optimizing the alpha parameter')
-            lower = 0.
+                logging.warning(
+                    "maximum allowed iterations reached while "
+                    "optimizing the alpha parameter"
+                )
+            lower = 0.0
             break
     return lower

@@ -23,6 +23,15 @@ class TestOptimizeAlapha(unittest.TestCase):
         Given a point, the alphashape function should return the same point
         """
         alpha = optimizealpha(
-            [(0., 0.), (0., 1.), (1., 1.), (1., 0.),
-             (0.5, 0.25), (0.5, 0.75), (0.25, 0.5), (0.75, 0.5)])
-        assert alpha > 3. and alpha < 3.5
+            [
+                (0.0, 0.0),
+                (0.0, 1.0),
+                (1.0, 1.0),
+                (1.0, 0.0),
+                (0.5, 0.25),
+                (0.5, 0.75),
+                (0.25, 0.5),
+                (0.75, 0.5),
+            ]
+        )
+        assert alpha > 3.0 and alpha < 3.5
